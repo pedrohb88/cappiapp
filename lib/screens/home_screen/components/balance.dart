@@ -19,11 +19,22 @@ class _BalanceState extends State<Balance> {
   @override
   Widget build(BuildContext context) {
     return Container(
-//      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Color(0xFFE4FFD4),
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x44000000),
+            blurRadius: 2.0, // has the effect of softening the shadow
+            spreadRadius: 1.0, // has the effect of extending the shadow
+            offset: Offset(
+              0.0, // horizontal, move right 10
+              2.0, // vertical, move down 10
+            ),
+          )
+        ],
       ),
       child: Column(
         children: <Widget>[
@@ -46,7 +57,7 @@ class _BalanceState extends State<Balance> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.remove_red_eye),
+                icon: Icon(_isBalanceVisible? Icons.visibility : Icons.visibility_off),
                 onPressed: _chanceBalanceVisibility,
               ),
             ],

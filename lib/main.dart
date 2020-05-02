@@ -29,9 +29,9 @@ class BaseWidgetState extends State<BaseWidget> {
   }
 
   final List<Widget> _navOptions = <Widget>[
-    Text('asd1'),
+    Text('To be done'),
     HomeScreen(),
-    Text('asd3'),
+    Text('To be done'),
   ];
 
   @override
