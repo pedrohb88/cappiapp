@@ -21,7 +21,7 @@ class _BalanceState extends State<Balance> {
 
   Future<BalanceResponse> fetchBalance() async {
     final response =
-        await http.get('https://jsonplaceholder.typicode.com/albums/1');
+        await http.get('https://jsonplaceholder.typicode.com/albums/1', headers: {'x-auth': 'token-here'});
     if (response.statusCode == 200) {
       print(response.body);
       return BalanceResponse.fromJson(json.decode(response.body));
