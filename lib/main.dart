@@ -20,7 +20,7 @@ class BaseWidget extends StatefulWidget {
 }
 
 class BaseWidgetState extends State<BaseWidget> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,26 +39,32 @@ class BaseWidgetState extends State<BaseWidget> {
     // TODO: implement build
     return Scaffold(
       body: _navOptions[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check),
-            title: Text('Goals'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Profile'),
-          ),
-        ],
-        onTap: _onItemTapped,
-        currentIndex: _selectedIndex,
-        backgroundColor: Color(0xFF008600),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Color(0x66FFFFFF),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ),
+        child: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.check),
+              title: Text('Goals'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('Profile'),
+            ),
+          ],
+          onTap: _onItemTapped,
+          currentIndex: _selectedIndex,
+          backgroundColor: Color(0xFF008600),
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Color(0x66FFFFFF),
+        ),
       ),
     );
   }

@@ -18,65 +18,90 @@ class _BalanceState extends State<Balance> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Color(0xFFE4FFD4),
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x44000000),
-            blurRadius: 2.0, // has the effect of softening the shadow
-            spreadRadius: 1.0, // has the effect of extending the shadow
-            offset: Offset(
-              0.0, // horizontal, move right 10
-              2.0, // vertical, move down 10
-            ),
-          )
-        ],
-      ),
-      child: Column(
+    return ClipPath(
+      clipper: MyCurveClipper(),
+      child: Stack(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(Icons.attach_money),
-              Text('Saldo'),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    'R\$ ' +
-                        (_isBalanceVisible
-                            ? _balance.toString()
-                            : _hiddenBalanceText),
-                    style: TextStyle(
-                      color: Color(0xFF005700),
-                      fontSize: 22,
+          Container(
+            padding: EdgeInsets.only(
+                top: 16.0, left: 16.0, right: 16.0, bottom: 32.0),
+            color: Color(0xFF008600),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          'Saldo',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 16.0),
+                          child: Text(
+                            'R\$ ' +
+                                (_isBalanceVisible
+                                    ? _balance.toString()
+                                    : _hiddenBalanceText),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
-              ),
-              IconButton(
-                icon: Icon(_isBalanceVisible? Icons.visibility : Icons.visibility_off),
-                onPressed: _chanceBalanceVisibility,
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      icon:
+                          Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                      onPressed: null,
+                    ),
+                    Center(
+                      child: Text(
+                        'Contas e extrato',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.keyboard_arrow_down),
-                onPressed: null,
+          Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: Icon(
+                _isBalanceVisible ? Icons.visibility : Icons.visibility_off,
+                color: Colors.white,
               ),
-              Center(
-                child: Text('Contas e extrato'),
-              ),
-            ],
+              onPressed: _chanceBalanceVisibility,
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+class MyCurveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+    path.lineTo(0, size.height / 1.5);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height / 1.5);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(oldClipper) => true;
 }

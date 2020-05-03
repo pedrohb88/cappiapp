@@ -8,14 +8,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      padding: EdgeInsets.all(8.0),
       child: ListView(
         children: <Widget>[
           Balance(),
-          SizedBox(
-            height: 16,
-          ),
-          AddExpense(),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                AddExpense(),
+              ],
+            ),
+          )
         ],
       ),
     );
