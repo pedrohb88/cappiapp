@@ -1,18 +1,16 @@
-import 'dart:math';
-
 import 'package:cappiapp/screens/home_screen/components/transaction_form.dart';
-import 'package:cappiapp/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
+import '../home_screen.dart';
 
-class AddExpense extends StatefulWidget {
+class AddGain extends StatefulWidget {
 
   @override
-  _AddExpenseState createState() => _AddExpenseState();
+  _AddGainState createState() => _AddGainState();
 }
 
-class _AddExpenseState extends State<AddExpense> {
+class _AddGainState extends State<AddGain> {
 
-  bool expanded = true;
+  bool expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +43,12 @@ class _AddExpenseState extends State<AddExpense> {
                   children: <Widget>[
                     Icon(
                       Icons.remove_circle,
-                      color: Color(0xFFE00A2A),
+                      color: Color(0xFF0be044),
                     ),
                     Text(
-                      'Gasto',
+                      'Receita',
                       style: TextStyle(
-                        color: Color(0xFFE00A2A),
+                        color: Color(0xFF0be044),
                       ),
                     ),
                   ],
@@ -59,7 +57,7 @@ class _AddExpenseState extends State<AddExpense> {
                   onTap: null,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFE00A2A),
+                      color: Color(0xFF0be044),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(5.0),
                     ),
