@@ -1,35 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:cappiapp/screens/home_screen/components/balance.dart';
 import 'package:cappiapp/screens/home_screen/components/add_expense.dart';
 import 'package:cappiapp/screens/home_screen/components/add_gain.dart';
-import 'package:flutter/material.dart';
+import 'package:cappiapp/models/transaction.dart';
 
-import 'components/balance.dart';
+import 'package:cappiapp/screens/home_screen/components/balance_notifier.dart';
+
+final marginBottom = EdgeInsets.only(bottom: 16.0);
 
 class HomeScreen extends StatefulWidget {
-  HomeScreenState createState() => HomeScreenState();
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
-
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: <Widget>[
-          Balance(),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                AddExpense(),
-                SizedBox(
-                  height: 18,
+    return Consumer<BalanceNotifier>(
+      builder: (context, balanceNotifier, child) {
+        var widget;
+        var _isTransactionsVisible = balanceNotifier.isTransactionsVisible;
+        if (_isTransactionsVisible) {
+          widget = Balance();
+        } else {
+          print('entrando aqui');
+          widget = ListView(
+            children: <Widget>[
+              Balance(),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Consumer<Transaction>(
+                  builder: (context, transaction, child) {
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          margin: marginBottom,
+                          child: AddExpense(),
+                        ),
+                        Container(
+                          margin: marginBottom,
+                          child: AddGain(),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                AddGain(),
-              ],
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          );
+        }
+
+        return ChangeNotifierProvider<HomeScreenNotifier>(
+          create: (context) => HomeScreenNotifier(
+              isExpanseExpanded: true, isGainExpanded: false),
+          child: Container(
+            child: widget,
+          ),
+        );
+      },
     );
+  }
+}
+
+class HomeScreenNotifier extends ChangeNotifier {
+  bool isGainExpanded;
+  bool isExpanseExpanded;
+
+  HomeScreenNotifier({
+    @required this.isGainExpanded,
+    @required this.isExpanseExpanded,
+  })  : assert(isGainExpanded != null),
+        assert(isExpanseExpanded != null);
+
+  void collapseGain() {
+    isGainExpanded = true;
+    isExpanseExpanded = false;
+
+    notifyListeners();
+  }
+
+  void collapseExpanse() {
+    isGainExpanded = false;
+    isExpanseExpanded = true;
+    notifyListeners();
   }
 }
