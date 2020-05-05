@@ -1,6 +1,8 @@
 # cappiapp
 
-A new Flutter application.
+Cappi, uma aplicação para gestão financeira facilitada.
+
+Para baixar o apk: https://drive.google.com/file/d/13M03dJgMt10ZSeYVv_9t3LZfY2JS65rU/view?usp=sharing
 
 ## Getting Started
 
