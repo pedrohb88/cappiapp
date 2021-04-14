@@ -1,15 +1,14 @@
-import 'package:cappiapp/models/json_request.dart';
-import 'package:cappiapp/models/transaction.dart';
+import 'package:cappiapp/models/cappi_api.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:cappiapp/models/user.dart';
-import 'package:cappiapp/screens/home_screen/components/transaction_tile.dart';
+import 'package:cappiapp/screens/home_screen/transaction_tile.dart';
 
 import 'balance_notifier.dart';
-import 'package:cappiapp/screens/home_screen/components/balance_notifier.dart';
+import 'package:cappiapp/screens/home_screen/balance_notifier.dart';
 
 class Balance extends StatefulWidget {
   @override
@@ -18,7 +17,6 @@ class Balance extends StatefulWidget {
 
 class _BalanceState extends State<Balance> {
   bool _isBalanceVisible = true;
-  final String _hiddenBalanceText = '##,##';
 
   void _chanceBalanceVisibility() {
     setState(() {
@@ -41,7 +39,7 @@ class _BalanceState extends State<Balance> {
     final storage = FlutterSecureStorage();
     final token = await storage.read(key: 'auth-token');
 
-    final result = await JsonRequest().get(route: '/transaction', headers: {
+    final result = await CappiApi().get(route: '/transaction', headers: {
       "x-auth": token,
     });
 

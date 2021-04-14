@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:cappiapp/models/json_request.dart';
+import 'package:cappiapp/models/cappi_api.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -31,13 +31,12 @@ class Transaction extends ChangeNotifier{
     if(this._category != null) body['category'] = this._category.toString();
     if(this._createdAt != null) body['createdAt'] = this._createdAt.toString();
 
-    final result = await JsonRequest().post(
+    final result = await CappiApi().post(
       route: '/transaction/${this.type}',
       body: body,
       headers: {"x-auth": token},
     );
-    var s = result.toString();
-    print('transaction result: ${s}');
+ 
     this.sending = false;
     notifyListeners();
 

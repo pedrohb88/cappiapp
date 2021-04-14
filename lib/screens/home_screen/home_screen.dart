@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:cappiapp/screens/home_screen/components/balance.dart';
-import 'package:cappiapp/screens/home_screen/components/add_expense.dart';
-import 'package:cappiapp/screens/home_screen/components/add_gain.dart';
+import 'package:cappiapp/screens/home_screen/balance.dart';
+import 'package:cappiapp/screens/home_screen/add_expense.dart';
+import 'package:cappiapp/screens/home_screen/add_gain.dart';
 import 'package:cappiapp/models/transaction.dart';
 
-import 'package:cappiapp/screens/home_screen/components/balance_notifier.dart';
+import 'package:cappiapp/screens/home_screen/balance_notifier.dart';
 
 final marginBottom = EdgeInsets.only(bottom: 16.0);
 
@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
         if (_isTransactionsVisible) {
           widget = Balance();
         } else {
-          print('entrando aqui');
           widget = ListView(
             children: <Widget>[
               Balance(),

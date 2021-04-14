@@ -2,10 +2,11 @@ import 'package:cappiapp/whatsapp_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cappiapp/models/transaction.dart';
-import 'package:cappiapp/screens/home_screen/components/balance_notifier.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:cappiapp/screens/home_screen/balance_notifier.dart';
 import 'package:cappiapp/screens/home_screen/home_screen.dart';
 import 'whatsapp_button.dart';
+
+import 'package:cappiapp/models/user.dart';
 
 class MainScreen extends StatefulWidget {
   final transaction = Transaction();
@@ -22,8 +23,6 @@ class MainScreenState extends State<MainScreen> {
       _selectedIndex = index;
     });
   }
-
-
 
   final List<Widget> _navOptions = <Widget>[
     Padding(
@@ -77,6 +76,16 @@ class MainScreenState extends State<MainScreen> {
             ),
           ),
           WhatsappButton(),
+          Consumer<User>(
+            builder: (context, user, child) {
+              return RaisedButton(
+                child: Text('Logout'),
+                onPressed: () {
+                  user.logout();
+                },
+              );
+            },
+          ),
         ],
       ),
     ),

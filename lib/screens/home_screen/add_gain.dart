@@ -1,34 +1,27 @@
-import 'dart:math';
-
-import 'package:cappiapp/screens/home_screen/components/transaction_form.dart';
+import 'package:cappiapp/screens/home_screen/transaction_form.dart';
 import 'package:flutter/material.dart';
+import 'package:cappiapp/screens/home_screen/home_screen.dart';
+
 import 'package:provider/provider.dart';
+import 'package:cappiapp/models/transaction.dart';
 import 'package:cappiapp/models/user.dart';
 
-import 'package:cappiapp/screens/home_screen/home_screen.dart';
-import 'package:cappiapp/models/transaction.dart';
-
-class AddExpense extends StatefulWidget {
+class AddGain extends StatefulWidget {
   @override
-  _AddExpenseState createState() => _AddExpenseState();
+  _AddGainState createState() => _AddGainState();
 }
 
-class _AddExpenseState extends State<AddExpense> {
+class _AddGainState extends State<AddGain> {
   final _formKey = GlobalKey<FormState>();
 
   final categories = [
     'Categoria',
-    'Casa',
-    'Aluguel',
-    'Transporte',
-    'Supermercado',
-    'Alimentação',
-    'Educação',
-    'Saúde',
-    'Contas',
-    'Família',
-    'Assinaturas',
-    'Outro'
+    'Salário',
+    'Bolsa',
+    'Rendimentos',
+    'Vendas',
+    'Serviço',
+    'Outro',
   ];
 
   showCustomDialog(msg) {
@@ -57,8 +50,8 @@ class _AddExpenseState extends State<AddExpense> {
           builder: (context, transaction, child) {
             return GestureDetector(
               onTap: () {
-                homeScreenNotifier.collapseExpanse();
-                transaction.type = 'out';
+                homeScreenNotifier.collapseGain();
+                transaction.type = 'in';
                 transaction.value = null;
               },
               child: Container(
@@ -89,50 +82,55 @@ class _AddExpenseState extends State<AddExpense> {
                           children: <Widget>[
                             Icon(
                               Icons.remove_circle,
-                              color: Color(0xFFE00A2A),
+                              color: Color(0xFF008600),
                             ),
                             Text(
-                              'Gasto',
+                              'Receita',
                               style: TextStyle(
-                                color: Color(0xFFE00A2A),
+                                color: Color(0xFF008600),
                               ),
                             ),
                           ],
                         ),
-                        Consumer<User>(
-                          builder: (context, user, child) {
-                            return RaisedButton(
-                              disabledColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              textColor: Colors.white,
-                              onPressed: transaction.value != null &&
-                                      transaction.type == 'out'
-                                  ? () async {
-                                      print('adicionar gasto');
+                        Consumer<Transaction>(
+                          builder: (context, transaction, child) {
+                            return Consumer<User>(
+                              builder: (context, user, child) {
+                                return RaisedButton(
+                                  disabledColor: Colors.grey,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  textColor: Colors.white,
+                                  onPressed: transaction.value != null &&
+                                          transaction.type == 'in'
+                                      ? () async {
+                                          print('adicionar receita');
 
-                                      final result = await transaction.send();
-                                      if (result != null) {
-                                        showCustomDialog('Gasto adicionado com sucesso!');
-
-                                        user.updateBalance(transaction.value, transaction.type);
-                                        transaction.clean();
-
-                                      } else
-                                        showCustomDialog(
-                                            'Falha ao adicionar gasto');
-                                    }
-                                  : null,
-                              color: Color(0xFFE00A2A),
-                              child: Text('Adicionar'),
+                                          final result =
+                                              await transaction.send();
+                                          if (result != null) {
+                                            showCustomDialog(
+                                                'Receita adicionada com sucesso!');
+                                              
+                                               user.updateBalance(transaction.value, transaction.type);
+                                               transaction.clean();
+                                          } else
+                                            showCustomDialog(
+                                                'Falha ao adicionar receita');
+                                        }
+                                      : null,
+                                  color: Color(0xFF008600),
+                                  child: Text('Adicionar'),
+                                );
+                              },
                             );
                           },
                         ),
                       ],
                     ),
-                    if (homeScreenNotifier.isExpanseExpanded) Divider(),
-                    if (homeScreenNotifier.isExpanseExpanded)
+                    if (homeScreenNotifier.isGainExpanded) Divider(),
+                    if (homeScreenNotifier.isGainExpanded)
                       TransactionForm(
                           formKey: _formKey, categories: categories),
                   ],
@@ -140,7 +138,7 @@ class _AddExpenseState extends State<AddExpense> {
               ),
             );
           },
-        ); //gesture
+        );
       },
     );
   }

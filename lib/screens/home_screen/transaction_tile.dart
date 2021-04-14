@@ -1,12 +1,11 @@
-import 'package:cappiapp/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionTile extends StatelessWidget {
-  String value;
-  String type = 'out';
-  String label;
-  String createdAt;
-  String category;
+  final String value;
+  final String type;
+  final String label;
+  final String createdAt;
+  final String category;
 
   final icons = {
     'Casa': Icons.home,
@@ -29,7 +28,7 @@ class TransactionTile extends StatelessWidget {
 
   TransactionTile({
     @required this.value,
-    this.type,
+    this.type = 'out',
     this.label,
     this.createdAt,
     this.category,
@@ -38,9 +37,10 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    String formatedDate = '';
     if(createdAt.indexOf('/') == -1){
       final date = DateTime.parse(createdAt);
-      createdAt = '${date.day}/${date.month}/${date.year}';
+      formatedDate = '${date.day}/${date.month}/${date.year}';
     }
     
     var val = type == 'in' ? 'R\$$value':'-R\$$value';
@@ -73,7 +73,7 @@ class TransactionTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(label != null ? label : ''),
-                Text(createdAt),
+                Text(formatedDate),
               ],
             ),
           ),
